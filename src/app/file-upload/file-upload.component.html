@@ -1,0 +1,52 @@
+<div class="file-upload">
+  <div
+    *ngIf="currentState === fileUploadState.INITIAL"
+    class="file-upload__initial-state base-container"
+    [class.file-upload__initial-state--hover]="dragHover"
+    [class.file-upload__initial-state--error]="isError"
+    (dragover)="dragOver($event)"
+    (dragleave)="dragLeave($event)"
+    (drop)="fileSelectHandler($event)"
+    (click)="fileInput.click()"
+  >
+    <p class="file-upload__initial-state__text">{{ initialText }}</p>
+  </div>
+
+  <div
+    *ngIf="currentState === fileUploadState.UPLOADING"
+    class="file-upload__loading-state base-container"
+  >
+    <p class="file-upload__loading-state__name">
+      {{ uploadedFileName | ellipsis }}
+    </p>
+    <div class="file-upload__loading-state__progress">
+      <mat-progress-bar
+        class="file-upload__upload-progress file-upload__loading-state__loading-bar"
+        mode="indeterminate">
+      </mat-progress-bar>
+    </div>
+  </div>
+
+  <div
+    *ngIf="currentState === fileUploadState.COMPLETED"
+    class="file-upload__uploaded-state base-container"
+  >
+    <p class="file-upload__uploaded-state__completed">
+      {{ uploadedFileName | ellipsis}}
+    </p>
+    <div
+      class="file-upload__uploaded-state__action-button"
+      (click)="onRemoveFile()"
+    >
+      <i-feather name="x-circle"></i-feather>
+    </div>
+  </div>
+
+  <input
+    #fileInput
+    class="file-upload__input"
+    type="file"
+    [attr.accept]="acceptedFileTypes"
+    (change)="fileSelectHandler($event)"
+  >
+</div>

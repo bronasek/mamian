@@ -1,0 +1,36 @@
+.header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+
+  &__input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    &:not(:last-child) {
+      margin-right: 75px;
+    }
+
+    app-file-upload {
+      margin-right: 10px;
+    }
+
+    &__icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<div class="header">
+  <span>M A M I A N</span>
+</div>
+
+<div class="content">
+  <div class="content__input">
+    <app-file-upload
+      [acceptedFileTypes]="inputDataMapper[inputType.EXCEL_ONE].acceptedFileTypes"
+      [currentState]="inputDataMapper[inputType.EXCEL_ONE].state"
+      [initialText]="inputDataMapper[inputType.EXCEL_ONE].initialText"
+      (fileChange)="onFileChange(inputType.EXCEL_ONE)"
+      (removeFile)="onFileRemove(inputType.EXCEL_ONE)"
+    ></app-file-upload>
+  </div>
+
+  <div class="content__input">
+    <app-file-upload
+      [acceptedFileTypes]="inputDataMapper[inputType.EXCEL_TWO].acceptedFileTypes"
+      [currentState]="inputDataMapper[inputType.EXCEL_TWO].state"
+      [initialText]="inputDataMapper[inputType.EXCEL_TWO].initialText"
+      (fileChange)="onFileChange(inputType.EXCEL_TWO)"
+      (removeFile)="onFileRemove(inputType.EXCEL_TWO)"
+    ></app-file-upload>
+  </div>
+</div>
