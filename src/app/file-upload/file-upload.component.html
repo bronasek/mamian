@@ -16,13 +16,10 @@
     *ngIf="currentState === fileUploadState.UPLOADING"
     class="file-upload__loading-state base-container"
   >
-    <p class="file-upload__loading-state__name">
-      {{ uploadedFileName | ellipsis }}
-    </p>
     <div class="file-upload__loading-state__progress">
       <mat-progress-bar
         class="file-upload__upload-progress file-upload__loading-state__loading-bar"
-        mode="indeterminate">
+        mode="buffer">
       </mat-progress-bar>
     </div>
   </div>

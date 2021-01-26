@@ -5,20 +5,22 @@
 <div class="content">
   <div class="content__input">
     <app-file-upload
-      [acceptedFileTypes]="inputDataMapper[inputType.EXCEL_ONE].acceptedFileTypes"
       [currentState]="inputDataMapper[inputType.EXCEL_ONE].state"
       [initialText]="inputDataMapper[inputType.EXCEL_ONE].initialText"
-      (fileChange)="onFileChange(inputType.EXCEL_ONE)"
+      (uploadingFile)="onFileUploading(inputType.EXCEL_ONE)"
+      (fileError)="onFileError(inputType.EXCEL_ONE)"
+      (fileUploaded)="onFileUploaded($event, inputType.EXCEL_ONE)"
       (removeFile)="onFileRemove(inputType.EXCEL_ONE)"
     ></app-file-upload>
   </div>
 
   <div class="content__input">
     <app-file-upload
-      [acceptedFileTypes]="inputDataMapper[inputType.EXCEL_TWO].acceptedFileTypes"
       [currentState]="inputDataMapper[inputType.EXCEL_TWO].state"
       [initialText]="inputDataMapper[inputType.EXCEL_TWO].initialText"
-      (fileChange)="onFileChange(inputType.EXCEL_TWO)"
+      (uploadingFile)="onFileUploading(inputType.EXCEL_TWO)"
+      (fileError)="onFileError(inputType.EXCEL_TWO)"
+      (fileUploaded)="onFileUploaded($event, inputType.EXCEL_TWO)"
       (removeFile)="onFileRemove(inputType.EXCEL_TWO)"
     ></app-file-upload>
   </div>

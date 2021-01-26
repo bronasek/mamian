@@ -11,7 +11,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EllipsisPipe } from './pipes/ellipsis.pipe';
 
 import { AppComponent } from './app.component';
-import { WmFileUploadComponent } from './file-upload/file-upload.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 const icons = {
   Eye,
@@ -21,7 +21,7 @@ const icons = {
 @NgModule({
   declarations: [
     AppComponent,
-    WmFileUploadComponent,
+    FileUploadComponent,
     EllipsisPipe,
   ],
   imports: [

@@ -7,6 +7,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import readXlsxFile from 'read-excel-file';
 
 const isDragEvent = (event: any): event is DragEvent => !!event.dataTransfer;
 
@@ -22,24 +23,23 @@ export enum FileUploadState {
   styleUrls: ['./file-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WmFileUploadComponent {
+export class FileUploadComponent {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef<HTMLInputElement>;
 
-  @Input() acceptedFileTypes: string;
   @Input() initialText: string;
   @Input() completedText: string;
   @Input() currentState = FileUploadState.INITIAL;
-  @Input() showPreview = false;
 
-  @Output() fileChange: EventEmitter<File[]> = new EventEmitter();
-  @Output() removeFile: EventEmitter<void> = new EventEmitter();
+  @Output() uploadingFile = new EventEmitter<void>();
+  @Output() fileError = new EventEmitter<void>();
+  @Output() fileUploaded = new EventEmitter<string[][]>();
+  @Output() removeFile = new EventEmitter<void>();
 
   public fileUploadState = FileUploadState;
   public uploadedFileName: string;
   public dragHover = false;
   public isError = false;
-
-  private files: File[];
+  public acceptedFileTypes = '.xlsx';
 
   public dragOver(event: Event): void {
     event.preventDefault();
@@ -69,29 +69,44 @@ export class WmFileUploadComponent {
     return this.validateFiles(files);
   }
 
-  private emitFiles(files: File[]): void {
-    this.files = files;
-    this.uploadedFileName = files[0].name;
-    this.isError = false;
-    this.fileChange.emit(files);
-  }
-
   private validateFiles(files: File[]): void {
-    const fileTypes: string[] = this.acceptedFileTypes
-      && this.acceptedFileTypes.replace(/\s/g, '').replace(/\./g, '').split(',');
+    this.uploadingFile.emit();
 
-    if (!fileTypes) {
-      return this.emitFiles(files);
-    }
-
-    const validFiles = files.filter(file => fileTypes.includes(file.name.split('.').pop()));
-
-    if (!validFiles.length) {
-      this.isError = true;
+    if (files.length !== 1) {
+      this.emitError();
       return;
     }
 
-    this.emitFiles(validFiles);
+    const validFiles = files.filter(file => file.name.split('.').pop() === this.acceptedFileTypes.replace('.', ''));
+
+    if (!validFiles.length) {
+      this.emitError();
+      return;
+    }
+
+    readXlsxFile(files[0])
+      .then((rows: string[][]) => {
+        // TODO: add file validation
+        const isExcelDataValid = true;
+
+        if (!isExcelDataValid) {
+          this.emitError();
+          return;
+        }
+
+        this.emitFile(rows, files[0]);
+      });
+  }
+
+  private emitError(): void {
+    this.isError = true;
+    this.fileError.emit();
+  }
+
+  private emitFile(data: string[][], file: File): void {
+    this.uploadedFileName = file.name;
+    this.isError = false;
+    this.fileUploaded.emit(data);
   }
 
   public onRemoveFile(): void {
